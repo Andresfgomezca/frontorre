@@ -1,0 +1,20 @@
+<br>
+<div class="col-lg-10 font">
+    <form class="example-form ">
+    <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Number</mat-label>
+        
+        <input (keypress)="search()" type="text"
+            placeholder="Search"
+            aria-label="Number"
+            matInput
+            [formControl]="query"
+            [matAutocomplete]="auto">
+        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" (onSelectionChange)="jump(option)">
+            {{option.name}}
+        </mat-option>
+        </mat-autocomplete>
+    </mat-form-field>
+    </form>
+</div>

@@ -70,7 +70,7 @@ export class UserSearchComponent implements OnInit {
     "professional_headline":option.option.value.professionalHeadline,
     "img_url":option.option.value.imageUrl
     }
-    window.open(`https://torre.ai/${option.username}`,"_blank")
+    window.open(`https://torre.ai/${option.option.value.username}`,"_blank")
     await this.favorites.saveFavorite(body)
     this.getFavoritesId(this.sessionid)
     

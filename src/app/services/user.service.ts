@@ -29,6 +29,7 @@ export class UserService {
             return partials;
           },map((e:any)=>{
             const response = e.map( (x:any) => JSON.parse(x.replace(/\"/g)) )
+            console.log(response)
             return response
           }))
         );

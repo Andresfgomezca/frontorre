@@ -13,6 +13,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import{HttpClientModule}from '@angular/common/http'
+import { CommonModule } from '@angular/common';
+
 @NgModule({
     declarations: [
         AppComponent,
@@ -31,7 +33,8 @@ import{HttpClientModule}from '@angular/common/http'
         ReactiveFormsModule,
         MatInputModule,
         UserSearchComponent,
-        HttpClientModule
+        HttpClientModule,
+        CommonModule
     ]
 })
 export class AppModule { }

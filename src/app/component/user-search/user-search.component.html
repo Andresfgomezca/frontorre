@@ -1,20 +1,46 @@
-<br>
-<div class="col-lg-10 font">
-    <form class="example-form ">
-    <mat-form-field class="example-full-width" appearance="outline">
-        <mat-label>Number</mat-label>
-        
-        <input (keypress)="search()" type="text"
-            placeholder="Search"
-            aria-label="Number"
-            matInput
-            [formControl]="query"
-            [matAutocomplete]="auto">
-        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name" (onSelectionChange)="jump(option)">
-            {{option.name}}
-        </mat-option>
-        </mat-autocomplete>
-    </mat-form-field>
-    </form>
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <h4 class="font p-4">
+        Search      
+    
+    </h4>
+    <div class="w-100 d-flex flex-column justify-content-center align-items-center">               
+        <div class="card w-75 justify-content-center align-self-center">
+            <div class="w-100 card-body justify-content-center align-self-center container">
+                <form class="example-form font">                    
+                    <mat-form-field class="example-full-width" appearance="outline">
+                        <mat-label>Name</mat-label>                        
+                        <input (keypress)="search()" type="text"
+                            placeholder="Search"
+                            aria-label="Name"
+                            matInput
+                            [formControl]="query"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="jump($event)" >
+                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option" >
+                                <img [src]=option.imageUrl *ngIf="option.imageUrl;else avatar" class="url">
+                                <ng-template #avatar><img src="assets/icon.PNG" class="url"></ng-template>                            
+                                {{option.name}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>                 
+                </form>            
+            </div>
+        </div>
+    </div>
+    
+    
+</div>
+<div class="w-100 d-flex flex-column justify-content-center align-items-center">
+    <ul class="list-group w-100">
+        <li class="list-group-item" *ngFor="let item of favoritesList">
+            <div class="media">
+                <img [src]="item.img_url" class="card-img-top" alt="Image Alt Text" style="max-width: 50px;">
+                <div class="media-body">
+                    <a class="card-title" [href]="'https://torre.ai/'+item.user_name" target="_blank">{{item.name}}</a>
+                <p class="card-text">{{item.professional_headline}}</p>
+                </div>
+                <button class="btn btn-danger ml-3" (click)="removeFav(item)">Delete</button>
+            </div>
+        </li>        
+    </ul>
 </div>

@@ -7,6 +7,11 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { UserService } from 'src/app/services/user.service';
+import { FavoritesService } from 'src/app/services/favorites.service';
+import { CommonModule } from '@angular/common';
+import { BrowserModule } from '@angular/platform-browser';
+
+
 
 
 /**
@@ -25,6 +30,8 @@ import { UserService } from 'src/app/services/user.service';
     ReactiveFormsModule,
     NgFor,
     AsyncPipe,
+    CommonModule,
+    BrowserModule
   ],
 })
 export class UserSearchComponent implements OnInit {
@@ -32,10 +39,13 @@ export class UserSearchComponent implements OnInit {
   //elements that needs to be fill with data
   options: any[] = [];
   filteredOptions!: Observable<any[]>;
-  constructor(private userService: UserService){
+  sessionid="";
+  favoritesList:any[]=[];
+  constructor(private userService: UserService,private favorites: FavoritesService){
 
   }
   ngOnInit() {      
+    this.sessionid=crypto.randomUUID()
   }
   search(){
     const query=this.query.value
@@ -48,11 +58,31 @@ export class UserSearchComponent implements OnInit {
     }
     
   }
-  jump(option:any){
-    console.log(option.username)
-    window.open(`https://torre.ai/${option.username}`,"_blank")
+  displayFn(option: any): string {
+    return option&& option.name ? option.name : '';
   }
-
+  async jump(option:any){
+    console.log(option)
+    const body= {
+    "session_id":this.sessionid,
+    "user_name":option.option.value.username,
+    "name":option.option.value.name,
+    "professional_headline":option.option.value.professionalHeadline,
+    "img_url":option.option.value.imageUrl
+    }
+    window.open(`https://torre.ai/${option.username}`,"_blank")
+    await this.favorites.saveFavorite(body)
+    this.getFavoritesId(this.sessionid)
+    
+  }
+  async getFavoritesId(option:any){
+    this.favoritesList= await this.favorites.getFavoriteSessionId(option)
+    console.log(this.favoritesList)
+  }
+  async removeFav(option:any){
+    await this.favorites.removeFav(option.favorite_id)
+    this.getFavoritesId(this.sessionid)
+  }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
 

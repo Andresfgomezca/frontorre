@@ -45,7 +45,7 @@ export class UserSearchComponent implements OnInit {
 
   }
   ngOnInit() {      
-    this.sessionid=crypto.randomUUID()
+    this.sessionid=new Date().getTime().toString()
   }
   search(){
     const query=this.query.value
